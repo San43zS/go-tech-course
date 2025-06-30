@@ -1,7 +1,6 @@
 package reverseString
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -18,9 +17,9 @@ func New(s string) Reverse {
 // MemmoryAllocated -> O(n); O(n) -> O(n)
 func (r reverseStr) ReverseStandart() string {
 	runes := []rune(r.s)
-	fmt.Println("runes = ", string(runes))
 
 	var tmp int
+
 	for i := 0; i <= len(runes); i++ {
 		if (i == len(runes)) || (runes[i] == ' ') {
 			for k, j := tmp, i-1; k < j; k, j = k+1, j-1 {
@@ -36,12 +35,14 @@ func (r reverseStr) ReverseStandart() string {
 // MemmoryAllocated -> O(n); O(n) -> O(n)
 func (r reverseStr) ReverseNotStandart() string {
 	f := strings.Split(r.s, " ")
+
 	for i := 0; i < len(f); i++ {
 		slice := []rune(f[i])
 
 		for j, k := 0, len(slice)-1; j < k; j, k = j+1, k-1 {
 			slice[j], slice[k] = slice[k], slice[j]
 		}
+
 		f[i] = string(slice)
 	}
 
