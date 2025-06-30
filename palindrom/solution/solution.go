@@ -56,6 +56,7 @@ func (p palindrom) IsPalindrome3() bool {
 	}
 
 	runes := []rune(p.s)
+
 	return recPalindrome(runes, 0, len(runes)-1)
 }
 
