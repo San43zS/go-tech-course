@@ -19,7 +19,8 @@ func main() {
 
 	err = dowload.DownloadFile(flagParams.FileURL, flagParams.FileName)
 	if err != nil {
-		model.Resolver(err)
+
+		fmt.Println(model.Resolver(err))
 		os.Exit(1)
 	}
 }

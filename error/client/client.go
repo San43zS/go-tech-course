@@ -1,8 +1,9 @@
 package client
 
 import (
-	"error/model"
 	"net/http"
+
+	"error/model"
 )
 
 type Client struct {

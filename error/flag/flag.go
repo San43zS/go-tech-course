@@ -1,8 +1,8 @@
 package flag
 
 import (
+	"error/model"
 	"flag"
-	"fmt"
 )
 
 type Params struct {
@@ -11,14 +11,14 @@ type Params struct {
 }
 
 func New() (IFlag, error) {
-	p := &Params{}
+	p := Params{}
 
-	flag.StringVar(&p.FileURL, "url", "", "URL of the file to download")
-	flag.StringVar(&p.FileName, "output", "", "FileName file name")
+	flag.StringVar(&p.FileURL, model.URL, "", "URL of the file to download")
+	flag.StringVar(&p.FileName, model.OutPut, "", "FileName file name")
 	flag.Parse()
 
 	if p.FileURL == "" || p.FileName == "" {
-		return nil, fmt.Errorf("missing required flags")
+		return nil, model.ErrMissingRequiredFlags
 	}
 
 	return p, nil

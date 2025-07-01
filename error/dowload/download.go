@@ -13,12 +13,13 @@ func DownloadFile(fileURL, fileName string) error {
 	clnt := client.New()
 
 	resp, err := clnt.Client.Get(fileURL)
-
 	if err != nil {
 		switch {
 		case os.IsTimeout(err):
+
 			return model.ErrConnectionFailed
 		default:
+
 			return model.ErrFileNotFound
 		}
 	}
@@ -28,9 +29,12 @@ func DownloadFile(fileURL, fileName string) error {
 
 	switch resp.StatusCode {
 	case http.StatusOK:
+
 	case http.StatusNotFound:
+
 		return model.ErrFileNotFound
 	default:
+
 		return model.ErrDownloadFailed
 	}
 
