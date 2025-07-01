@@ -5,41 +5,38 @@ import (
 	"unicode/utf8"
 )
 
-type palindrom struct {
-	s string
-}
+type palindrom string
 
 func New(s string) Solution {
-	return palindrom{
-		s: s,
-	}
+	return palindrom(s)
 }
 
 // O(n) -> O(n); MemmoryAllocated -> O(n)
 func (p palindrom) IsPalindrome1() bool {
-	if len(p.s) < 2 {
+	if len(p) < 2 {
 		return false
 	}
 
 	var newS strings.Builder
 
-	for i := len(p.s); i > 0; {
-		r, size := utf8.DecodeLastRuneInString(p.s[:i])
+	for i := len(p); i > 0; {
+		r, size := utf8.DecodeLastRuneInString(string(p[:i]))
 
 		newS.WriteString(string(r))
 		i -= size
 	}
 
-	return p.s == newS.String()
+	return string(p) == newS.String()
 }
 
 // O(n) -> O(n); MemmoryAllocated -> O(n)
 func (p palindrom) IsPalindrome2() bool {
-	if len(p.s) < 2 {
+	if len(p) < 2 {
 		return false
 	}
 
-	runes := []rune(p.s)
+	runes := []rune(p)
+
 	for i := 0; i < len(runes)/2; i++ {
 		if runes[i] != runes[len(runes)-i-1] {
 			return false
@@ -51,11 +48,11 @@ func (p palindrom) IsPalindrome2() bool {
 
 // O(n) -> O(n); MemmoryAllocated -> O(n)
 func (p palindrom) IsPalindrome3() bool {
-	if len(p.s) < 2 {
+	if len(p) < 2 {
 		return false
 	}
 
-	runes := []rune(p.s)
+	runes := []rune(p)
 
 	return recPalindrome(runes, 0, len(runes)-1)
 }
@@ -74,16 +71,16 @@ func recPalindrome(runes []rune, left, right int) bool {
 
 // O(n) -> O(n); MemmoryAllocated -> O(1)
 func (p palindrom) IsPalindrome4() bool {
-	if len(p.s) < 2 {
+	if len(p) < 2 {
 		return false
 	}
 
 	left := 0
-	right := len(p.s)
+	right := len(p)
 
 	for left < right {
-		runeLeft, sizeLeft := utf8.DecodeRuneInString(p.s[left:])
-		runeRight, sizeRight := utf8.DecodeLastRuneInString(p.s[:right])
+		runeLeft, sizeLeft := utf8.DecodeRuneInString(string(p[left:]))
+		runeRight, sizeRight := utf8.DecodeLastRuneInString(string(p[:right]))
 
 		if runeLeft != runeRight {
 			return false
