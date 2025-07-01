@@ -1,6 +1,8 @@
 package figure
 
 import (
+	"math"
+
 	"shapeInterface/figure/model"
 	"shapeInterface/shape"
 )
@@ -14,9 +16,9 @@ func NewCircle(radius int) shape.Shape {
 }
 
 func (c Circle) Area() float64 {
-	return model.PI * float64(c.Radius) * float64(c.Radius)
+	return math.Pi * math.Pow(float64(c.Radius), 2)
 }
 
 func (c Circle) GetType() string {
-	return "circle"
+	return model.Circle
 }

@@ -2,8 +2,8 @@ package flag
 
 import (
 	"flag"
-	"fmt"
 	"shapeInterface/figure"
+	"shapeInterface/figure/model"
 	"shapeInterface/shape"
 )
 
@@ -15,16 +15,16 @@ type Params struct {
 }
 
 func New() (Iflag, error) {
-	p := &Params{}
+	p := Params{}
 
-	flag.StringVar(&p.ShapeType, "shape", "", "shape type (circle/rectangle)")
-	flag.IntVar(&p.Width, "width", 0, "rectangle width")
-	flag.IntVar(&p.Height, "height", 0, "rectangle height")
-	flag.IntVar(&p.Radius, "radius", 0, "circle radius")
+	flag.StringVar(&p.ShapeType, model.Shape, "", "shape type (circle/rectangle)")
+	flag.IntVar(&p.Width, model.RectWidth, 0, "rectangle width")
+	flag.IntVar(&p.Height, model.RectHeight, 0, "rectangle height")
+	flag.IntVar(&p.Radius, model.CircRadius, 0, "circle radius")
 	flag.Parse()
 
-	if p.ShapeType != "circle" && p.ShapeType != "rectangle" {
-		return Params{}, fmt.Errorf("invalid shape type: must be 'circle' or 'rectangle'")
+	if p.ShapeType != model.Circle && p.ShapeType != model.Rectangle {
+		return Params{}, model.ErrInvalidShapeType
 	}
 
 	return p, nil
@@ -32,17 +32,22 @@ func New() (Iflag, error) {
 
 func (p Params) GetShape() (shape.Shape, error) {
 	switch p.ShapeType {
-	case "circle":
+	case model.Circle:
 		if p.Radius <= 0 {
-			return nil, fmt.Errorf("radius must be positive")
+			return nil, model.ErrRadiusMustBePositive
 		}
+
 		return figure.NewCircle(p.Radius), nil
-	case "rectangle":
+
+	case model.Rectangle:
 		if p.Width <= 0 || p.Height <= 0 {
-			return nil, fmt.Errorf("width and height must be positive")
+			return nil, model.ErrRectParamMustBePositive
 		}
+
 		return figure.NewRectangle(p.Width, p.Height), nil
+
 	default:
-		return nil, fmt.Errorf("unknown shape type")
+
+		return nil, model.ErrUnknownShapeType
 	}
 }

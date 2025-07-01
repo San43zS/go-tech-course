@@ -1,6 +1,9 @@
 package figure
 
-import "shapeInterface/shape"
+import (
+	"shapeInterface/figure/model"
+	"shapeInterface/shape"
+)
 
 type rectangle struct {
 	width  int
@@ -16,5 +19,5 @@ func (r rectangle) Area() float64 {
 }
 
 func (r rectangle) GetType() string {
-	return "rectangle"
+	return model.Rectangle
 }
