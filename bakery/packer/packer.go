@@ -2,21 +2,33 @@ package packer
 
 import (
 	"bakery/model"
+	"context"
 	"math/rand"
 	"sync"
 	"time"
 )
 
-func Packer(id, t2 int, in <-chan model.Cake, out chan<- model.Cake, wg *sync.WaitGroup) {
+func Packer(ctx context.Context, id, t2 int, in <-chan model.Cake, out chan<- model.Cake, wg *sync.WaitGroup) {
 	defer wg.Done()
 
-	for cake := range in {
-		timeSpent := rand.Intn(t2*2) + 1
-		time.Sleep(time.Duration(timeSpent) * time.Millisecond)
+	for {
+		select {
+		case <-ctx.Done():
 
-		cake.PackedBy = id
-		cake.PackTime = timeSpent
+			return
+		case cake, ok := <-in:
 
-		out <- cake
+			if !ok {
+				return
+			}
+
+			timeSpent := rand.Intn(t2*2) + 1
+			time.Sleep(time.Duration(timeSpent) * time.Millisecond)
+
+			cake.PackedBy = id
+			cake.PackTime = timeSpent
+
+			out <- cake
+		}
 	}
 }
