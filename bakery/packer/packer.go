@@ -14,10 +14,9 @@ func Packer(ctx context.Context, id, t2 int, in <-chan model.Cake, out chan<- mo
 	for {
 		select {
 		case <-ctx.Done():
-
 			return
-		case cake, ok := <-in:
 
+		case cake, ok := <-in:
 			if !ok {
 				return
 			}

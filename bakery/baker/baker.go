@@ -14,10 +14,9 @@ func Baker(ctx context.Context, id, t1 int, in <-chan int, out chan<- model.Cake
 	for {
 		select {
 		case <-ctx.Done():
-
 			return
-		case cakeID, ok := <-in:
 
+		case cakeID, ok := <-in:
 			if !ok {
 				return
 			}

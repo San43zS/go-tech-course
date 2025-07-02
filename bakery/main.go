@@ -57,6 +57,5 @@ func main() {
 			i+1, cake.BakedBy, cake.BakeTime, cake.PackedBy, cake.PackTime)
 	}
 
-	<-ctx.Done()
 	fmt.Println("Завершение по сигналу...")
 }
